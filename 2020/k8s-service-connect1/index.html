@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Jessica">
+  <meta name="description" content="Jessica new blog since 2020">
+  
+  
+  <link rel="prev" href="https://jessica1127.github.io/2020/python-string-summary/" />
+  
+  <link rel="canonical" href="https://jessica1127.github.io/2020/k8s-service-connect1/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Kubernetes内服务和外部服务的通信-I | Jessica1127`s Blog
+       
+  </title>
+  <meta name="title" content="Kubernetes内服务和外部服务的通信-I | Jessica1127`s Blog">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/jessica1127.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "Kubernetes内服务和外部服务的通信-I",
+    "headline" : "Kubernetes内服务和外部服务的通信-I",
+    "description" : "集群内服务之间的通信 在Docker环境中，由于Docker Engine自DNS server，我们使用容器名来访问其他容器，因为容器是不稳定的",
+    "inLanguage" : "zh-cn",
+    "author" : "Jessica",
+    "creator" : "Jessica",
+    "publisher": "Jessica",
+    "accountablePerson" : "Jessica",
+    "copyrightHolder" : "Jessica",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-03-10 17:09:41 \x2b0800 CST",
+    "dateModified" : "2020-03-10 17:09:41 \x2b0800 CST",
+    "url" : "https:\/\/jessica1127.github.io\/2020\/k8s-service-connect1\/",
+    "wordCount" : "2011",
+    "keywords" : [ "Kubernetes","micro-service", "Jessica1127`s Blog"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://jessica1127.github.io/">Jessica1127`s Blog</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://jessica1127.github.io/">Jessica1127`s Blog</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Kubernetes内服务和外部服务的通信-I</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://jessica1127.github.io/" rel="author">Jessica</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-03-10 itemprop="datePublished">March 10, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://jessica1127.github.io/categories/kubernetes/"> Kubernetes </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h1 id="集群内服务之间的通信">集群内服务之间的通信</h1>
+<p>在Docker环境中，由于Docker Engine自DNS server，我们使用容器名来访问其他容器，因为容器是不稳定的，当容器宕掉，再重新启动相同镜像的容器，IP地址会改变，所以我们不使用IP访问其他容器；同样的，在Kubernetes集群中，由于我们使用kube-DNS,我们常用Service Name来访问某个服务。Service资源对象能保证其背后的容器副本始终是最新的IP。</p>
+<h1 id="集群内服务访问外部服务">集群内服务访问外部服务</h1>
+<h3 id="利用external-name访问">利用External name访问：</h3>
+<p>集群内访问外部服务可以利用集群内服务Service Name不变这个特性，对Service名称和外部服务地址做一个映射，使之访问Service名称既是访问外部服务。例如下面的例子是将svc1和外部服务xxx.xxx.xxx.xxx做了对应关系。</p>
+<pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: svc1
+  namespace: default
+spec:
+  externalName: somedomain.org
+  ports:
+  - port: 3306
+    protocol: TCP
+    targetPort: 3306
+  sessionAffinity: None
+  type: ExternalName
+status:
+  loadBalancer: {}
+</code></pre><p>优点：
+利用Externalname访问集群外部服务的优点是不仅可以访问外部的ip:port的服务，也可以访问带有domain的service name.</p>
+<h3 id="利用service的endpoint来访问">利用Service的Endpoint来访问</h3>
+<p>Kubernetes中同一个Service name可以有多个不同的副本。一个服务背后是多个Endpoint。Endpoint解决Service Name映射到某个容器的问题，在Endpoint中不仅可以指定集群内容器的IP，还可以指定集群外IP(只需要集群内是可以访问到外面IP就行)，我们可以利用这个特性使用集群外部的服务。</p>
+<pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-production
+spec:
+  ports:
+    - port: 3306
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: mysql-production
+  namespace: default
+subsets:
+  - addresses:
+      - ip: 192.168.1.25
+    ports:
+      - port: 3306
+</code></pre><p>缺点： 利用Endpoint方式适合外部服务是IP的情况，也可以指定端口，不适用于外部服务是domain name的情况。</p>
+<h1 id="istio-enabled-集群访问外部的方式">Istio enabled 集群访问外部的方式</h1>
+<p>默认情况下，来自istio-enabled Pod的所有出站流量都会重定向到期Sidecar代理，集群外部URL的可访问性取决于代理的配置。默认情况下，Istio将Envoy代理配置为允许传递未知服务的请求。</p>
+<p>有三种Istio Enabled集群访问外部服务的方法：</p>
+<ol>
+<li>允许Envoy代理将请求传递到未在网格内配置过的服务。</li>
+<li>配置service entries以提供对外部服务的受控访问。</li>
+<li>对于特定范围的IP，完全绕过Envoy代理。</li>
+</ol>
+<h3 id="envoy转发流量到外部服务">Envoy转发流量到外部服务</h3>
+<p>首先要开启Istio的安装选线：</p>
+<pre><code>global.outboundTrafficPolicy.mode:ALLOW_ANY
+</code></pre><p>获取这个Istio配置的方法：</p>
+<pre><code>kubectl get configmap istio -n istio-system -o yaml | grep -o &quot;mode: ALLOW_ANY&quot;
+</code></pre><p>如果你在安装的时候这个选项设置的是&quot;REGISTRY_ONLY&rdquo; name你需要通过下面命令来修改：</p>
+<pre><code>kubectl get configmap istio -n istio-system -o yaml | sed 's/mode: REGISTRY_ONLY/mode: ALLOW_ANY/g' | kubectl replace -n istio-system -f -
+</code></pre><p>这样就可以直接从目标repo向外发送请求了。
+例如你可以从你的目标repo中发送一个curl命令去 <a href="https://www.google.com">https://www.google.com</a></p>
+<p>缺点：虽然可以达到k8s集群内访问外部服务的结果，但丢失了对外部服务流量Istio的监控和控制。比如，外部服务的调用没有记录到Mixer的日志中。</p>
+<h3 id="serviceentry控制对外部服务的访问推荐">ServiceEntry控制对外部服务的访问（推荐）</h3>
+<p>使用Istio ServiceEntry配置，你可以Istio急群众访问任何公开的服务。这种方式可以在不丢失Istio的流量监控和控制的情况下，配置对外部HTTP服务和外部HTTPS服务的访问。</p>
+<p>注意这种也需要配置：</p>
+<pre><code>global.outboundTrafficPolicy.mode: ALLOW_ANY
+</code></pre><p>举个例子：</p>
+<ol>
+<li>创建一个ServiceEntry，允许对外部服务的访问：</li>
+</ol>
+<pre><code>$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: google
+spec:
+  hosts:
+  - www.google.com
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: DNS
+  location: MESH_EXTERNAL
+EOF
+</code></pre><ol start="2">
+<li>从SOURCE_POD往外部HTTPS服务发送请求：</li>
+</ol>
+<pre><code>kubectl exec -it $SOURCE_POD -c sleep -- curl -I https://www.google.com | grep  &quot;HTTP/&quot;
+</code></pre><p>3.检查SOURCE_POD的sidecar代理的日志：</p>
+<pre><code>kubectl logs $SOURCE_POD -c istio-proxy | tail
+</code></pre><p>这样发送的请求都可以从Mixer查询到相应的访问记录。
+最后也可以通过在ServiceEntry中设置对外部服务的访问路由和访问限制。</p>
+<h3 id="直接访问外部服务">直接访问外部服务</h3>
+<p>要让特定范围的IP完全绕过Istio，可以配置Envoy sidecars以防止他们拦截外部请求。要设置绕过Istio，需要更改：
+global.proxy.includeIPRanges 或 global.proxy.excludeIPRanges 配置选项，并使用 kubectl apply 命令更新 istio-sidecar-injector 的配置。istio-sidecar-injector 配置的更新，影响的是新部署应用的 pod。（这种方法与第一种方法的差别在于完全禁止了指定IP的所有Istio功能。）</p>
+<ol>
+<li>配置代理绕行
+排除所有外部IP重定向到Sidecar代理的一种简单方法就是将：global.proxy.includeIPRanges 配置选项设置为内部集群服务使用的 IP 范围。这些 IP 范围值取决于集群所在的平台。</li>
+</ol>
+<p>eg:
+如果kubernetes集群IP 范围是 10.0.0.1/24，则使用下面的命令：</p>
+<pre><code>istioctl manifest apply &lt;the flags you used to install Istio&gt; --set values.global.proxy.includeIPRanges=&quot;10.0.0.1/24&quot;
+</code></pre><ol start="2">
+<li>直接访问外部服务
+直接从应用pod内cur外部服务（HTTP/HTTPS），你不会看到任何与Istio sidecar有关的请求头。并且发送到外部服务的请求既不会出现在Sidecar的日志中，也不会出现在Mixer日志中。绕过Istio sidecar意味着你不能再监视对外部服务的访问。</li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Jessica </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://jessica1127.github.io/2020/k8s-service-connect1/>https://jessica1127.github.io/2020/k8s-service-connect1/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://jessica1127.github.io/tags/kubernetes/">
+                    #Kubernetes</a></span>
+            
+            <span class="tag"><a href="https://jessica1127.github.io/tags/micro-service/">
+                    #micro-service</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://jessica1127.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://jessica1127.github.io/2020/python-string-summary/" class="prev" rel="prev" title="Python字符串截取总结"><i class="iconfont icon-left"></i>&nbsp;Python字符串截取总结</a>
+         
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2010 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://jessica1127.github.io/">Jessica</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

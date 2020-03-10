@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Jessica">
+  <meta name="description" content="Jessica new blog since 2020">
+  
+  
+  
+  <link rel="next" href="https://jessica1127.github.io/2020/k8s-service-connect1/" />
+  <link rel="canonical" href="https://jessica1127.github.io/2020/python-string-summary/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Python字符串截取总结 | Jessica1127`s Blog
+       
+  </title>
+  <meta name="title" content="Python字符串截取总结 | Jessica1127`s Blog">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/jessica1127.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "Python字符串截取总结",
+    "headline" : "Python字符串截取总结",
+    "description" : "今天要处理python的字符串，总结一下罗列如下： str = \x26lsquo;0123456789\x26rsquo; str[5]: 这个和list列表找索引一样，结果是【5】 str[1:5:]: 结果是：【1,2,3,4】,后面最后一",
+    "inLanguage" : "zh-cn",
+    "author" : "Jessica",
+    "creator" : "Jessica",
+    "publisher": "Jessica",
+    "accountablePerson" : "Jessica",
+    "copyrightHolder" : "Jessica",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-03-10 10:11:42 \x2b0800 CST",
+    "dateModified" : "2020-03-10 10:11:42 \x2b0800 CST",
+    "url" : "https:\/\/jessica1127.github.io\/2020\/python-string-summary\/",
+    "wordCount" : "317",
+    "keywords" : [ "python","String","Tech", "Jessica1127`s Blog"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://jessica1127.github.io/">Jessica1127`s Blog</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://jessica1127.github.io/">Jessica1127`s Blog</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Python字符串截取总结</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://jessica1127.github.io/" rel="author">Jessica</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-03-10 itemprop="datePublished">March 10, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://jessica1127.github.io/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"> 编程语言 </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <p>今天要处理python的字符串，总结一下罗列如下：
+str = &lsquo;0123456789&rsquo;
+str[5]: 这个和list列表找索引一样，结果是【5】
+str[1:5:]: 结果是：【1,2,3,4】,后面最后一个参数可以省略，故也可以写成:str[1:5]
+str[1👎2]:从字符串下标1开始，到最后一位（不包括最后一位),步长是2
+str[-6::-1]:步长小于0，那么截取位置就是原对象从后往前取。取数（结果）的时候也是从后往前取得【4,3,2,1,0】
+str[:-2:-1]:step&lt;0,从后往前截取，然后取得的结果从后往前写，结果：【9】正向截取不到就反向取
+str[-2:2:-2]:step&lt;0 从后往前截取，然后倒着写出结果【8,7,6,5,4,3】，然后加上step，就是从8开始减去step=2，最终结果【8,6,4】</p>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Jessica </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://jessica1127.github.io/2020/python-string-summary/>https://jessica1127.github.io/2020/python-string-summary/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://jessica1127.github.io/tags/python/">
+                    #python</a></span>
+            
+            <span class="tag"><a href="https://jessica1127.github.io/tags/string/">
+                    #String</a></span>
+            
+            <span class="tag"><a href="https://jessica1127.github.io/tags/tech/">
+                    #Tech</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://jessica1127.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+         
+        
+        <a href="https://jessica1127.github.io/2020/k8s-service-connect1/" class="next" rel="next" title="Kubernetes内服务和外部服务的通信-I">Kubernetes内服务和外部服务的通信-I&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2010 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://jessica1127.github.io/">Jessica</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

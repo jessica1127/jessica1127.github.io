@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Jessica1127`s Blog</title>
+    <link>https://jessica1127.github.io/posts/</link>
+    <description>Recent content in Posts on Jessica1127`s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 10 Mar 2020 17:09:41 +0800</lastBuildDate>
+    
+	<atom:link href="https://jessica1127.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Kubernetes内服务和外部服务的通信-I</title>
+      <link>https://jessica1127.github.io/2020/k8s-service-connect1/</link>
+      <pubDate>Tue, 10 Mar 2020 17:09:41 +0800</pubDate>
+      
+      <guid>https://jessica1127.github.io/2020/k8s-service-connect1/</guid>
+      <description>集群内服务之间的通信 在Docker环境中，由于Docker Engine自DNS server，我们使用容器名来访问其他容器，因为容器是不稳定的</description>
+    </item>
+    
+    <item>
+      <title>Python字符串截取总结</title>
+      <link>https://jessica1127.github.io/2020/python-string-summary/</link>
+      <pubDate>Tue, 10 Mar 2020 10:11:42 +0800</pubDate>
+      
+      <guid>https://jessica1127.github.io/2020/python-string-summary/</guid>
+      <description>今天要处理python的字符串，总结一下罗列如下： str = &amp;lsquo;0123456789&amp;rsquo; str[5]: 这个和list列表找索引一样，结果是【5】 str[1:5:]: 结果是：【1,2,3,4】,后面最后一</description>
+    </item>
+    
+  </channel>
+</rss>

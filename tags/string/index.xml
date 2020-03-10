@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>String on Jessica1127`s Blog</title>
+    <link>https://jessica1127.github.io/tags/string/</link>
+    <description>Recent content in String on Jessica1127`s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 10 Mar 2020 10:11:42 +0800</lastBuildDate>
+    
+	<atom:link href="https://jessica1127.github.io/tags/string/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python字符串截取总结</title>
+      <link>https://jessica1127.github.io/2020/python-string-summary/</link>
+      <pubDate>Tue, 10 Mar 2020 10:11:42 +0800</pubDate>
+      
+      <guid>https://jessica1127.github.io/2020/python-string-summary/</guid>
+      <description>今天要处理python的字符串，总结一下罗列如下： str = &amp;lsquo;0123456789&amp;rsquo; str[5]: 这个和list列表找索引一样，结果是【5】 str[1:5:]: 结果是：【1,2,3,4】,后面最后一</description>
+    </item>
+    
+  </channel>
+</rss>
