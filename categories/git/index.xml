@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>tech on Jessica1127`s Blog</title>
-    <link>https://jessica1127.github.io/tags/tech/</link>
-    <description>Recent content in tech on Jessica1127`s Blog</description>
+    <title>git on Jessica1127`s Blog</title>
+    <link>https://jessica1127.github.io/categories/git/</link>
+    <description>Recent content in git on Jessica1127`s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 11 Mar 2020 07:07:11 +0800</lastBuildDate>
     
-	<atom:link href="https://jessica1127.github.io/tags/tech/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://jessica1127.github.io/categories/git/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,15 +18,6 @@
       
       <guid>https://jessica1127.github.io/2020/git-squash/</guid>
       <description>Requirement: When you need to merge/PR your develop branch to master/release branch, you have lots of commit histories which are useless, and among which some are test message. Now you need to use git squash to package your commit message before your merge/PR. Use below cmd to see your git change history and log: git reflog !image Here is the steps you need to do: checkout a new branch Under</description>
-    </item>
-    
-    <item>
-      <title>Python字符串截取总结</title>
-      <link>https://jessica1127.github.io/2020/python-string-summary/</link>
-      <pubDate>Tue, 10 Mar 2020 10:11:42 +0800</pubDate>
-      
-      <guid>https://jessica1127.github.io/2020/python-string-summary/</guid>
-      <description>今天要处理python的字符串，总结一下罗列如下： str = &amp;lsquo;0123456789&amp;rsquo; str[5]: 这个和list列表找索引一样，结果是【5】 str[1:5:]: 结果是：【1,2,3,4】,后面最后一</description>
     </item>
     
   </channel>

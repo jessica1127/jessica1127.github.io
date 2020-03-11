@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Jessica">
+  <meta name="description" content="Jessica new blog since 2020">
+  
+  
+  <link rel="prev" href="https://jessica1127.github.io/2020/k8s-service-connect1/" />
+  
+  <link rel="canonical" href="https://jessica1127.github.io/2020/git-squash/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Git Squash | Jessica1127`s Blog
+       
+  </title>
+  <meta name="title" content="Git Squash | Jessica1127`s Blog">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/jessica1127.github.io\/"
+    },
+    "articleSection" : "posts",
+    "name" : "Git Squash",
+    "headline" : "Git Squash",
+    "description" : "Requirement: When you need to merge\/PR your develop branch to master\/release branch, you have lots of commit histories which are useless, and among which some are test message. Now you need to use git squash to package your commit message before your merge\/PR. Use below cmd to see your git change history and log: git reflog !image Here is the steps you need to do: checkout a new branch Under",
+    "inLanguage" : "zh-cn",
+    "author" : "Jessica",
+    "creator" : "Jessica",
+    "publisher": "Jessica",
+    "accountablePerson" : "Jessica",
+    "copyrightHolder" : "Jessica",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-03-11 07:07:11 \x2b0800 CST",
+    "dateModified" : "2020-03-11 07:07:11 \x2b0800 CST",
+    "url" : "https:\/\/jessica1127.github.io\/2020\/git-squash\/",
+    "wordCount" : "106",
+    "keywords" : [ "git","tech", "Jessica1127`s Blog"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://jessica1127.github.io/">Jessica1127`s Blog</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://jessica1127.github.io/">Jessica1127`s Blog</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Git Squash</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://jessica1127.github.io/" rel="author">Jessica</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2020-03-11 itemprop="datePublished">March 11, 2020</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://jessica1127.github.io/categories/git/"> git </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <p>Requirement: When you need to merge/PR your develop branch to master/release branch, you have lots of commit histories which are useless, and among which some are test message. Now you need to use git squash to package your commit message before your merge/PR.</p>
+<p>Use below cmd to see your git change history and log:</p>
+<pre><code>git reflog
+</code></pre><p><a href="/images/git-squash/gitlog.jpg">!image</a></p>
+<p>Here is the steps you need to do:</p>
+<ol>
+<li>checkout a new branch</li>
+<li>Under the new branch</li>
+</ol>
+<pre><code>git merge --squash &lt;your_target_branch_which_need_to_be_packaged&gt;
+</code></pre><p>&ndash;squash will stop your commit temporarily.</p>
+<pre><code>git commit -m 'Your comment message here'
+git push origin &lt;your new branch&gt;
+</code></pre><p>更详细的参考博文: <a href="https://www.cnblogs.com/dsxniubility/p/4460834.html">https://www.cnblogs.com/dsxniubility/p/4460834.html</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Jessica </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://jessica1127.github.io/2020/git-squash/>https://jessica1127.github.io/2020/git-squash/</span>
+            </p>
+            
+             
+            <p class="copyright-item lincese">
+                本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可
+            </p>
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://jessica1127.github.io/tags/git/">
+                    #git</a></span>
+            
+            <span class="tag"><a href="https://jessica1127.github.io/tags/tech/">
+                    #tech</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://jessica1127.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://jessica1127.github.io/2020/k8s-service-connect1/" class="prev" rel="prev" title="Kubernetes内服务和外部服务的通信-I"><i class="iconfont icon-left"></i>&nbsp;Kubernetes内服务和外部服务的通信-I</a>
+         
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2010 - 2020</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://jessica1127.github.io/">Jessica</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>
